@@ -18,7 +18,7 @@ public class DB {
                 conn = DriverManager.getConnection(url, props);
             }
             catch (SQLException e){
-                throw new DbException(e.getMessage());
+                throw new db.DbException(e.getMessage());
             }
         }
         return conn;
@@ -29,7 +29,7 @@ public class DB {
             try {
                 conn.close();
             } catch (SQLException e) {
-                throw new DbException(e.getMessage());
+                throw new db.DbException(e.getMessage());
             }
         }
     }
@@ -42,7 +42,7 @@ public class DB {
             return props;
         }
         catch (IOException e) {
-            throw new DbException(e.getMessage());
+            throw new db.DbException(e.getMessage());
         }
 
 
@@ -54,7 +54,7 @@ public class DB {
                 stmt.close();
             }
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new db.DbException(e.getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public class DB {
             }
         }
         catch(SQLException e){
-            throw new DbException(e.getMessage());
+            throw new db.DbException(e.getMessage());
         }
     }
 }

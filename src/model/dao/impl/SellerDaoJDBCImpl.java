@@ -1,12 +1,25 @@
 package model.dao.impl;
 
+import db.DbException;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class SellerDaoJDBCImpl implements SellerDao {
+
+    private Connection conn;
+
+    public SellerDaoJDBCImpl(Connection conn) {
+        this.conn = conn;
+    }
+
+
     @Override
     public void insert(Seller seller) {
 
@@ -23,8 +36,54 @@ public class SellerDaoJDBCImpl implements SellerDao {
     }
 
     @Override
-    public Department findById(Integer id) {
-        return null;
+    public Seller findById(Integer id) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try{
+            st = conn.prepareStatement("SELECT seller.*,department.Name as DepName " +
+                    "FROM seller INNER JOIN department " +
+                    "ON seller.DepartmentId = department.Id " +
+                    "WHERE seller.Id = ?");
+
+            st.setInt(1, id);
+            rs = st.executeQuery();
+
+            if(rs.next()){
+                Department dep = instatiateDepartment(rs);
+                Seller seller = instatiateSeller(rs, dep);
+                return seller;
+            }
+            return null;
+        }
+        catch (SQLException e){
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            db.DB.CloseStatement(st);
+            db.DB.CloseResultSet(rs);
+
+        }
+
+
+    }
+
+    private Seller instatiateSeller(ResultSet rs, Department dep)  throws SQLException{
+        Seller seller = new Seller();
+        seller.setName(rs.getString("Name"));
+        seller.setDepartment(dep);
+        seller.setId(rs.getInt("Id"));
+        seller.setEmail(rs.getString("Email"));
+        seller.setDateOfBirth(rs.getDate("BirthDate"));
+        seller.setBaseSalary(rs.getDouble("BaseSalary"));
+        return seller;
+    }
+
+    private Department instatiateDepartment(ResultSet rs) throws SQLException {
+        Department dep = new Department();
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setName(rs.getString("DepName"));
+        return dep;
     }
 
     @Override

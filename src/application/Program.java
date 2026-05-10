@@ -10,5 +10,9 @@ void main() {
     Seller seller = new Seller(21 ,"Bob","BobCharlton@gmail.com",new Date(), 3000.0, obj);
     SellerDao sellerDao = DaoFactory.createSellerDao();
 
-    System.out.println(seller.toString());
+    System.out.println("---- Teste 1 = FindByID ----");
+
+
+    Seller seller1 = sellerDao.findById(3);
+    System.out.println(seller1.toString());
 }

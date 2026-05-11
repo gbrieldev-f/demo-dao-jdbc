@@ -22,5 +22,11 @@ void main() {
         System.out.println(se.toString());
     }
 
+    System.out.println("\n ---- Teste 3 = seller findAll ----");
+    sellers = sellerDao.findAll();
+    for (Seller se : sellers) {
+        System.out.println(se.toString());
+    }
+
 
 }

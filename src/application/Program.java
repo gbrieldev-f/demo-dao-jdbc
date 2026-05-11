@@ -12,7 +12,15 @@ void main() {
 
     System.out.println("---- Teste 1 = FindByID ----");
 
-
     Seller seller1 = sellerDao.findById(3);
     System.out.println(seller1.toString());
+
+    System.out.println("\n ---- Teste 2 = FindByDepartmentID ----");
+    Department dep = new Department(2,null);
+    List<Seller> sellers = sellerDao.findByDepartment(dep);
+    for (Seller se : sellers) {
+        System.out.println(se.toString());
+    }
+
+
 }

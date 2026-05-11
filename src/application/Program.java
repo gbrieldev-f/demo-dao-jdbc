@@ -28,5 +28,9 @@ void main() {
         System.out.println(se.toString());
     }
 
+    System.out.println("\n ---- Teste 4 = seller insert ----");
+    Seller seller2 = new Seller(null, "Gabriel", "Gabriel@gmail.com", new Date(), 5000.00,dep);
+    sellerDao.insert(seller2);
+    System.out.println("Inserted! new ID = " +  seller2.getId());
 
 }
